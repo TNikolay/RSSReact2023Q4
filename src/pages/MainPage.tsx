@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import SearchBar from '../components/SearchBar';
+import CardList from '../components/CardList';
 
 const LS_QUERY_ITEM_NAME = 'TN_Query';
 
@@ -17,7 +18,7 @@ export default class MainPage extends Component<Props, State> {
 
   onSearchSubmit = (query: string) => {
     localStorage.setItem(LS_QUERY_ITEM_NAME, query);
-    this.setState({ ...this.state, query });
+    this.setState({ query });
   };
 
   render() {
@@ -25,7 +26,7 @@ export default class MainPage extends Component<Props, State> {
       <>
         <h1 className="my-6 text-3xl text-center">Hi there!</h1>
         <SearchBar query={this.state.query} onSubmit={this.onSearchSubmit} />
-        <p className="my-6 text-center">Query: `{this.state.query}`</p>
+        <CardList query={this.state.query} />
       </>
     );
   }

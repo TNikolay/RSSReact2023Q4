@@ -18,7 +18,7 @@ export default class SearchBar extends Component<Props, State> {
   }
 
   onQueryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ ...this.state, query: event.target.value });
+    this.setState({ query: event.target.value });
   };
 
   onSubmit = (event: React.FormEvent) => {
