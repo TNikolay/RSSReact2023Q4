@@ -1,80 +1,59 @@
 import axios, { AxiosError } from 'axios';
-import { Component } from 'react';
+import { useEffect, useState } from 'react';
 import { Character, Info } from '../Interfaces';
 import Card from './Card';
 import ErrorMessage from './ErrorMessage';
 import Loader from './Loader';
 
-interface Props {
+interface IProps {
   query: string;
 }
 
-interface CardListState {
-  characters: Character[];
-  error: string;
-  loading: boolean;
-}
+export default function CardList({ query }: IProps) {
+  const [characters, setCharacters] = useState<Character[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-type State = Readonly<CardListState>;
+  useEffect(() => {
+    async function fetchProducts(name: string) {
+      setError('');
+      setLoading(true);
+      try {
+        const response = await axios.get<Info<Character[]>>(
+          'character' + (name ? `?name=${name}` : '')
+        );
 
-export default class CardList extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      characters: [],
-      error: '',
-      loading: true,
-    };
-  }
+        setCharacters(response.data.results ?? []);
+      } catch (e: unknown) {
+        const error = e as AxiosError;
 
-  componentDidMount() {
-    this.fetchProducts(this.props.query);
-  }
+        if (error.response?.status === 404) {
+          setCharacters([]);
+          return;
+        }
 
-  componentDidUpdate(previousProps: Props) {
-    if (previousProps.query === this.props.query) return;
-    this.fetchProducts(this.props.query);
-  }
-
-  async fetchProducts(name: string) {
-    try {
-      this.setState({ error: '', loading: true });
-
-      const response = await axios.get<Info<Character[]>>(
-        `character${name ? `?name=${name}` : ''}`
-      );
-
-      this.setState({
-        characters: response.data.results ?? [],
-        loading: false,
-      });
-    } catch (e: unknown) {
-      const error = e as AxiosError;
-
-      if (error.response?.status === 404) {
-        this.setState({ characters: [], loading: false });
-        return;
+        setError(error.message);
+      } finally {
+        setLoading(false);
       }
-
-      this.setState({ error: error.message, loading: false });
-      console.warn(error);
     }
-  }
 
-  render() {
-    return (
-      <>
-        <p className="my-6 text-center">Query: `{this.props.query}`</p>
+    fetchProducts(query);
+  }, [query]);
 
-        {this.state.error && <ErrorMessage error={this.state.error} />}
-        {this.state.loading && <Loader />}
+  return (
+    <>
+      {error && <ErrorMessage error={error} />}
+      {loading && <Loader />}
+      {!error && !loading && !characters.length && (
+        <ErrorMessage error={'Sorry, there is no data for your requiest'} />
+      )}
 
-        <div className="flex flex-wrap gap-6">
-          {this.state.characters.map((item) => (
-            <Card data={item} key={item.id} />
-          ))}
-        </div>
-      </>
-    );
-  }
+      <div className="flex flex-wrap gap-6">
+        {characters.map((item) => (
+          <Card data={item} key={item.id} />
+        ))}
+      </div>
+    </>
+  );
 }

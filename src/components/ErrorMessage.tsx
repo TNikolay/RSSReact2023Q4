@@ -1,15 +1,7 @@
-import React, { Component } from 'react';
-
-interface Props {
+interface IProps {
   error: string;
 }
 
-export default class ErrorMessage extends Component<Props> {
-  render() {
-    return (
-      <p className="py-5 font-bold text-center text-red-600">
-        {this.props.error}
-      </p>
-    );
-  }
+export default function ErrorMessage({ error }: IProps) {
+  return <p className="py-5 font-bold text-center text-red-600">{error}</p>;
 }
