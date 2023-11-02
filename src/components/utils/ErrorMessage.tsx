@@ -1,5 +1,5 @@
 interface IProps {
-  error: string;
+  readonly error: string;
 }
 
 export default function ErrorMessage({ error }: IProps) {

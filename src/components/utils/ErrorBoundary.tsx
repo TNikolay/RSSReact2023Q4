@@ -2,7 +2,7 @@ import React, { Component, ErrorInfo } from 'react';
 import ErrorMessage from './ErrorMessage';
 
 interface Props {
-  children: React.ReactNode;
+  readonly children: React.ReactNode;
 }
 
 interface State {

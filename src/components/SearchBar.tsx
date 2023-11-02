@@ -1,6 +1,6 @@
 interface IProps {
-  initQuery: string;
-  onSubmit: (query: string) => void;
+  readonly initQuery: string;
+  readonly onSubmit: (query: string) => void;
 }
 
 export default function SearchBar({ initQuery, onSubmit }: IProps) {
@@ -13,7 +13,7 @@ export default function SearchBar({ initQuery, onSubmit }: IProps) {
   };
 
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center mb-5">
       <form onSubmit={onSubmitClick}>
         <input
           type="search"

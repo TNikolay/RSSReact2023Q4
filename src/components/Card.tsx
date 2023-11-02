@@ -1,7 +1,7 @@
 import { Character } from '../Interfaces';
 
 interface IProps {
-  data: Character;
+  readonly data: Character;
 }
 
 export default function Card({ data }: IProps) {

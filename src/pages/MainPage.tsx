@@ -21,7 +21,7 @@ export default function MainPage() {
 
   return (
     <>
-      <h1 className="my-6 text-3xl text-center">Hi there!</h1>
+      <h1>Here search can you</h1>
       <SearchBar initQuery={query} onSubmit={onSearchSubmit} />
       <CardList query={query} />
 

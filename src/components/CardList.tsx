@@ -1,10 +1,10 @@
 import { useCharacters } from '../hooks/Characters';
 import Card from './Card';
-import ErrorMessage from './ErrorMessage';
-import Loader from './Loader';
+import Loader from './utils/Loader';
+import ErrorMessage from './utils/ErrorMessage';
 
 interface IProps {
-  query: string;
+  readonly query: string;
 }
 
 export default function CardList({ query }: IProps) {
