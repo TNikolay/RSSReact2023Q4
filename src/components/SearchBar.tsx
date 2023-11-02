@@ -1,19 +1,14 @@
-import React, { useState } from 'react';
-
 interface IProps {
   initQuery: string;
   onSubmit: (query: string) => void;
 }
 
 export default function SearchBar({ initQuery, onSubmit }: IProps) {
-  const [query, setQuery] = useState(initQuery);
-
-  const onQueryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(event.target.value);
-  };
-
   const onSubmitClick = (event: React.FormEvent) => {
     event.preventDefault();
+    const form = event.target as HTMLFormElement;
+    const data = new FormData(form);
+    const query = (data.get('searchQuery') as string) || '';
     onSubmit(query.trim());
   };
 
@@ -22,11 +17,11 @@ export default function SearchBar({ initQuery, onSubmit }: IProps) {
       <form onSubmit={onSubmitClick}>
         <input
           type="search"
+          name="searchQuery"
           className="px-4 py-2 border"
           placeholder="Search..."
           autoComplete="off"
-          value={query}
-          onChange={onQueryChange}
+          defaultValue={initQuery}
         />
 
         <button
