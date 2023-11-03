@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import CardList from '../components/CardList';
 import SearchBar from '../components/SearchBar';
+import { useSearchParams } from 'react-router-dom';
 
 const LS_QUERY_ITEM_NAME = 'TN_Query';
 
@@ -9,10 +10,15 @@ export default function MainPage() {
   const [query, setQuery] = useState(
     localStorage.getItem(LS_QUERY_ITEM_NAME) ?? ''
   );
+  const [, setSearchParams] = useSearchParams();
 
   const onSearchSubmit = (query: string) => {
     localStorage.setItem(LS_QUERY_ITEM_NAME, query);
     setQuery(query);
+    setSearchParams((prev) => {
+      prev.delete('page');
+      return prev;
+    });
   };
 
   const throwError = () => {

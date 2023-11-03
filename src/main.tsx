@@ -9,11 +9,11 @@ import './index.css';
 axios.defaults.baseURL = 'https://rickandmortyapi.com/api';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <ErrorBoundary>
-        <App />
-      </ErrorBoundary>
-    </BrowserRouter>
-  </React.StrictMode>
+  // <React.StrictMode>
+  <BrowserRouter>
+    <ErrorBoundary>
+      <App />
+    </ErrorBoundary>
+  </BrowserRouter>
+  //  </React.StrictMode>
 );
