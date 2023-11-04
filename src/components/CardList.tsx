@@ -8,16 +8,21 @@ import DetailedCard from './DetailedCard';
 
 interface IProps {
   readonly query: string;
+  readonly itemsPerPage: number;
 }
 
-const ITEM_PER_PAGE = 20;
+export const ITEMS_PER_PAGE = 20;
 
-export default function CardList({ query }: IProps) {
+export default function CardList({ query, itemsPerPage }: IProps) {
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get('page') as string) || 1;
   const details = parseInt(searchParams.get('details') as string) || 0;
 
-  const { loading, error, characters, total } = useCharacters(query, page);
+  const { loading, error, characters, total } = useCharacters(
+    query,
+    page,
+    itemsPerPage
+  );
 
   const changePage = (page: number) => {
     setSearchParams({ page: page.toString() });
@@ -34,18 +39,16 @@ export default function CardList({ query }: IProps) {
     <>
       <div className="flex">
         <div className="flex-grow w-[300px]">
-          <p>
-            query - {query}, page = {page}, total = {total}, details = {details}
-          </p>
+          {/* <p>query - {query}, page = {page}, total = {total}, details = {details}</p> */}
           {error && <ErrorMessage error={error} />}
           {loading && <Loader />}
           {!error && !loading && !characters.length && (
             <ErrorMessage error={'Sorry, there is no data for your requiest'} />
           )}
 
-          {total > ITEM_PER_PAGE && (
+          {total > itemsPerPage && (
             <Pagination
-              total={Math.ceil(total / ITEM_PER_PAGE)}
+              total={Math.ceil(total / itemsPerPage)}
               current={page}
               onClick={changePage}
             />
@@ -61,9 +64,9 @@ export default function CardList({ query }: IProps) {
             ))}
           </div>
 
-          {total > ITEM_PER_PAGE && (
+          {total > itemsPerPage && (
             <Pagination
-              total={Math.ceil(total / ITEM_PER_PAGE)}
+              total={Math.ceil(total / itemsPerPage)}
               current={page}
               onClick={changePage}
             />

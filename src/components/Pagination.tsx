@@ -8,7 +8,7 @@ export default function Pagination({ total, current, onClick }: IProps) {
   const pages = new Array(total).fill(0);
 
   return (
-    <div className="py-5">
+    <div className="pr-20 pb-5">
       <span className="font-bold">Page:</span>
       {pages.map((_, index) => {
         const page = index + 1;
