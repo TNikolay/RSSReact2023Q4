@@ -10,18 +10,11 @@ interface IQueryParams {
 
 const calcCurPage = (page: number, itemsPerPage: number) => {
   if (page === 1 || itemsPerPage === 20) return page;
-
-  if (itemsPerPage === 10)
-    return Math.ceil((page * itemsPerPage) / ITEMS_PER_PAGE);
-
+  if (itemsPerPage === 10) return Math.ceil((page * itemsPerPage) / ITEMS_PER_PAGE);
   return ((page - 1) * itemsPerPage) / ITEMS_PER_PAGE + 1;
 };
 
-export function useCharacters(
-  query: string,
-  page: number,
-  itemsPerPage: number
-) {
+export function useCharacters(query: string, page: number, itemsPerPage: number) {
   const [characters, setCharacters] = useState<Character[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -56,10 +49,7 @@ export function useCharacters(
             case 40:
               if (response.data.info?.next) {
                 params.page++;
-                const response2 = await axios.get<Info<Character[]>>(
-                  'character',
-                  { params }
-                );
+                const response2 = await axios.get<Info<Character[]>>('character', { params });
                 setCharacters(res.concat(response2.data?.results ?? []));
               } else setCharacters(res);
               break;

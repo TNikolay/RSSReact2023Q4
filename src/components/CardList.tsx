@@ -18,11 +18,7 @@ export default function CardList({ query, itemsPerPage }: IProps) {
   const page = parseInt(searchParams.get('page') as string) || 1;
   const details = parseInt(searchParams.get('details') as string) || 0;
 
-  const { loading, error, characters, total } = useCharacters(
-    query,
-    page,
-    itemsPerPage
-  );
+  const { loading, error, characters, total } = useCharacters(query, page, itemsPerPage);
 
   const changePage = (page: number) => {
     setSearchParams({ page: page.toString() });
@@ -47,35 +43,21 @@ export default function CardList({ query, itemsPerPage }: IProps) {
           )}
 
           {total > itemsPerPage && (
-            <Pagination
-              total={Math.ceil(total / itemsPerPage)}
-              current={page}
-              onClick={changePage}
-            />
+            <Pagination total={Math.ceil(total / itemsPerPage)} current={page} onClick={changePage} />
           )}
 
           <div className="flex flex-wrap gap-6">
             {characters.map((item) => (
-              <Card
-                data={item}
-                key={item.id}
-                onClick={() => changeDetailsId(item.id.toString())}
-              />
+              <Card data={item} key={item.id} onClick={() => changeDetailsId(item.id.toString())} />
             ))}
           </div>
 
           {total > itemsPerPage && (
-            <Pagination
-              total={Math.ceil(total / itemsPerPage)}
-              current={page}
-              onClick={changePage}
-            />
+            <Pagination total={Math.ceil(total / itemsPerPage)} current={page} onClick={changePage} />
           )}
         </div>
 
-        {!!details && (
-          <DetailedCard id={details} onClose={() => changeDetailsId('')} />
-        )}
+        {!!details && <DetailedCard id={details} onClose={() => changeDetailsId('')} />}
       </div>
     </>
   );

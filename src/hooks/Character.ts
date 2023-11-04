@@ -18,11 +18,7 @@ export function useCharacter(id: number) {
       } catch (e: unknown) {
         const error = e as AxiosError;
         setCharacter(null);
-        setError(
-          error.response?.status === 404
-            ? 'Sorry, there is no data for this character'
-            : error.message
-        );
+        setError(error.response?.status === 404 ? 'Sorry, there is no data for this character' : error.message);
       } finally {
         setLoading(false);
       }

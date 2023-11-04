@@ -17,11 +17,7 @@ export default class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, info: ErrorInfo) {
-    console.log(
-      'ErrorBoundary did catch an error: ',
-      error,
-      info.componentStack
-    );
+    console.log('ErrorBoundary did catch an error: ', error, info.componentStack);
     this.setState({
       hasError: true,
       error: error,
@@ -30,11 +26,7 @@ export default class ErrorBoundary extends Component<Props, State> {
 
   render() {
     if (this.state.hasError) {
-      return (
-        <ErrorMessage
-          error={`Oops, something went wrong: ${this.state.error?.message}`}
-        />
-      );
+      return <ErrorMessage error={`Oops, something went wrong: ${this.state.error?.message}`} />;
     }
 
     return this.props.children;

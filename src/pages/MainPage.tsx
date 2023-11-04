@@ -8,12 +8,8 @@ const LS_ITEMS_PER_PAGE_NAME = 'TN_ItemsPerPage';
 
 export default function MainPage() {
   const [needThrowError, setNeedThrowError] = useState(false);
-  const [query, setQuery] = useState(
-    localStorage.getItem(LS_QUERY_ITEM_NAME) ?? ''
-  );
-  const [itemsPerPage, setItemPerPage] = useState(
-    +(localStorage.getItem(LS_ITEMS_PER_PAGE_NAME) ?? '20')
-  );
+  const [query, setQuery] = useState(localStorage.getItem(LS_QUERY_ITEM_NAME) ?? '');
+  const [itemsPerPage, setItemsPerPage] = useState(+(localStorage.getItem(LS_ITEMS_PER_PAGE_NAME) ?? '20'));
   const [, setSearchParams] = useSearchParams();
 
   const onSearchSubmit = (query: string) => {
@@ -25,9 +21,9 @@ export default function MainPage() {
     });
   };
 
-  const onItemsPerPageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    localStorage.setItem(LS_ITEMS_PER_PAGE_NAME, e.target.value);
-    setItemPerPage(+e.target.value);
+  const onItemsPerPageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    localStorage.setItem(LS_ITEMS_PER_PAGE_NAME, event.target.value);
+    setItemsPerPage(+event.target.value);
     setSearchParams((prev) => {
       prev.delete('page');
       return prev;
@@ -45,11 +41,7 @@ export default function MainPage() {
 
       <label>
         <span>Items per page: </span>
-        <select
-          value={itemsPerPage}
-          onChange={onItemsPerPageChange}
-          className="px-2 mb-5 ml-2 border-2"
-        >
+        <select value={itemsPerPage} onChange={onItemsPerPageChange} className="px-2 mb-5 ml-2 border-2">
           <option value="10">10 / page</option>
           <option value="20">20 / page</option>
           <option value="40">40 / page</option>

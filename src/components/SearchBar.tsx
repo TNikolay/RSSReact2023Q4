@@ -24,10 +24,7 @@ export default function SearchBar({ initQuery, onSubmit }: IProps) {
           defaultValue={initQuery}
         />
 
-        <button
-          type="submit"
-          className="px-6 py-2 m-3 bg-green-500 rounded-full hover:text-white"
-        >
+        <button type="submit" className="px-6 py-2 m-3 bg-green-500 rounded-full hover:text-white">
           Search
         </button>
       </form>

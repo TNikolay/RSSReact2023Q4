@@ -14,15 +14,10 @@ export default function DetailedCard({ id, onClose }: IProps) {
 
   return (
     <>
-      <div
-        className="fixed top-0 left-0 z-20 w-full h-full bg-gray-50 bg-opacity-80"
-        onClick={onClose}
-      ></div>
+      <div className="fixed top-0 left-0 z-20 w-full h-full bg-gray-50 bg-opacity-80" onClick={onClose}></div>
       <div className="w-[300px] bg-gray-100 flex flex-col items-center p-5 mt-20 z-30">
         <div className="flex w-full">
-          <div className="mb-5 w-full text-lg font-medium text-center text-gray-900">
-            Details
-          </div>
+          <div className="mb-5 w-full text-lg font-medium text-center text-gray-900">Details</div>
           <svg
             onClick={onClose}
             className="ml-auto w-6 h-6 text-gray-700 cursor-pointer fill-current"
@@ -49,8 +44,7 @@ export default function DetailedCard({ id, onClose }: IProps) {
               Species: <span className="font-bold">{character.species}</span>
             </p>
             <p className={detailClassName}>
-              Location:{' '}
-              <span className="font-bold">{character.location.name}</span>
+              Location: <span className="font-bold">{character.location.name}</span>
             </p>
             <p className={detailClassName}>
               Origin: <span className="font-bold">{character.origin.name}</span>
