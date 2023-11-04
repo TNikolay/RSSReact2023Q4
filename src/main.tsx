@@ -10,7 +10,7 @@ axios.defaults.baseURL = 'https://rickandmortyapi.com/api';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   // <React.StrictMode>
-  <BrowserRouter>
+  <BrowserRouter /*basename="/RSSReact2023Q4/"*/>
     <ErrorBoundary>
       <App />
     </ErrorBoundary>

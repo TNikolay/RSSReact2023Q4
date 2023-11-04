@@ -31,13 +31,14 @@ export default function MainPage() {
       <SearchBar initQuery={query} onSubmit={onSearchSubmit} />
       <CardList query={query} />
 
-      {needThrowError && throwError()}
       <button
-        className="fixed right-10 bottom-10 px-4 py-2 text-2xl text-black bg-red-700 rounded-full hover:text-white"
+        className="fixed right-10 bottom-10 z-50 px-4 py-2 text-2xl text-black bg-red-700 rounded-full hover:text-white"
         onClick={() => setNeedThrowError(true)}
       >
         Throw Error
       </button>
+
+      {needThrowError && throwError()}
     </>
   );
 }

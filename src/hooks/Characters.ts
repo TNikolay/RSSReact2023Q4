@@ -14,11 +14,11 @@ export function useCharacters(query: string, page: number) {
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
-    async function fetchProducts(name: string) {
+    async function fetchData() {
       setError('');
       setLoading(true);
       const params: IQueryParams = { page };
-      if (name) params.name = name;
+      if (query) params.name = query;
 
       try {
         const response = await axios.get<Info<Character[]>>('character', {
@@ -41,7 +41,8 @@ export function useCharacters(query: string, page: number) {
         setLoading(false);
       }
     }
-    fetchProducts(query);
+
+    fetchData();
   }, [query, page]);
 
   return { characters, error, loading, total };
