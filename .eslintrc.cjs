@@ -5,6 +5,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'prettier',
     'plugin:prettier/recommended',
+    'plugin:jest-dom/recommended',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -20,7 +21,7 @@ module.exports = {
     jest: true,
     node: true,
   },
-  plugins: ['@typescript-eslint', 'react', 'react-hooks', 'react-refresh'],
+  plugins: ['@typescript-eslint', 'react', 'react-hooks', 'react-refresh', 'jest-dom'],
   rules: {
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
