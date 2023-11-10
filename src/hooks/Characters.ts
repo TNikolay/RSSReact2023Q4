@@ -1,8 +1,9 @@
 import axios, { AxiosError } from 'axios';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import { Character, Info } from '../Interfaces';
 import { ITEMS_PER_PAGE } from '../components/CardList';
 import { QueryContext } from '../contexts/QueryContext';
+import { CharactersContext } from '../contexts/CharactersContext';
 
 interface IQueryParams {
   page: number;
@@ -16,17 +17,13 @@ const calcCurPage = (page: number, itemsPerPage: number) => {
 };
 
 export function useCharacters(page: number, itemsPerPage: number) {
-  const [characters, setCharacters] = useState<Character[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [total, setTotal] = useState(0);
-
   const { query } = useContext(QueryContext);
+  const { characters, loading, error, total, startLoading, setResponseData, setErrorData } =
+    useContext(CharactersContext);
 
   useEffect(() => {
     async function fetchData() {
-      setError('');
-      setLoading(true);
+      startLoading();
 
       const params: IQueryParams = { page: calcCurPage(page, itemsPerPage) };
       if (query) params.name = query;
@@ -36,28 +33,27 @@ export function useCharacters(page: number, itemsPerPage: number) {
           params,
         });
 
-        setTotal(response.data.info?.count ?? 0);
-
-        if (!response.data.results) setCharacters([]);
+        if (!response.data.results) setResponseData([], 0);
         else {
           const res = response.data.results;
+          const total = response.data.info?.count ?? 0;
 
           switch (itemsPerPage) {
             case 10:
-              setCharacters(page % 2 ? res.slice(0, 10) : res.slice(10));
+              setResponseData(page % 2 ? res.slice(0, 10) : res.slice(10), total);
               break;
             case 20:
-              setCharacters(res);
+              setResponseData(res, total);
               break;
             case 40:
               if (response.data.info?.next) {
                 params.page++;
                 const response2 = await axios.get<Info<Character[]>>('character', { params });
-                setCharacters(res.concat(response2.data?.results ?? []));
-              } else setCharacters(res);
+                setResponseData(res.concat(response2.data?.results ?? []), total);
+              } else setResponseData(res, total);
               break;
             default:
-              setCharacters(res);
+              setResponseData(res, total);
               console.error('WTF??? itemsPerPage = ', itemsPerPage);
           }
         }
@@ -65,18 +61,16 @@ export function useCharacters(page: number, itemsPerPage: number) {
         const error = e as AxiosError;
 
         if (error.response?.status === 404) {
-          setCharacters([]);
-          setTotal(0);
+          setResponseData([], 0);
           return;
         }
 
-        setError(error.message);
-      } finally {
-        setLoading(false);
+        setErrorData(error.message);
       }
     }
 
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query, page, itemsPerPage]);
 
   return { characters, error, loading, total };

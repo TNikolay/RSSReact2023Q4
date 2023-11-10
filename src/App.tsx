@@ -4,6 +4,7 @@ import Layout from './pages/Layout';
 import MainPage from './pages/MainPage';
 import NotfoundPage from './pages/NotfoundPage';
 import { QueryProvider } from './contexts/QueryContext';
+import { CharactersProvider } from './contexts/CharactersContext';
 
 export default function App() {
   return (
@@ -13,7 +14,9 @@ export default function App() {
           index
           element={
             <QueryProvider>
-              <MainPage />
+              <CharactersProvider>
+                <MainPage />
+              </CharactersProvider>
             </QueryProvider>
           }
         />
