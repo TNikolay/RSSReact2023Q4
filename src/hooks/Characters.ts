@@ -1,7 +1,8 @@
 import axios, { AxiosError } from 'axios';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Character, Info } from '../Interfaces';
 import { ITEMS_PER_PAGE } from '../components/CardList';
+import { QueryContext } from '../contexts/QueryContext';
 
 interface IQueryParams {
   page: number;
@@ -14,11 +15,13 @@ const calcCurPage = (page: number, itemsPerPage: number) => {
   return ((page - 1) * itemsPerPage) / ITEMS_PER_PAGE + 1;
 };
 
-export function useCharacters(query: string, page: number, itemsPerPage: number) {
+export function useCharacters(page: number, itemsPerPage: number) {
   const [characters, setCharacters] = useState<Character[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [total, setTotal] = useState(0);
+
+  const { query } = useContext(QueryContext);
 
   useEffect(() => {
     async function fetchData() {

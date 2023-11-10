@@ -3,23 +3,12 @@ import CardList from '../components/CardList';
 import SearchBar from '../components/SearchBar';
 import { useSearchParams } from 'react-router-dom';
 
-const LS_QUERY_ITEM_NAME = 'TN_Query';
 const LS_ITEMS_PER_PAGE_NAME = 'TN_ItemsPerPage';
 
 export default function MainPage() {
   const [needThrowError, setNeedThrowError] = useState(false);
-  const [query, setQuery] = useState(localStorage.getItem(LS_QUERY_ITEM_NAME) ?? '');
   const [itemsPerPage, setItemsPerPage] = useState(+(localStorage.getItem(LS_ITEMS_PER_PAGE_NAME) ?? '20'));
   const [, setSearchParams] = useSearchParams();
-
-  const onSearchSubmit = (query: string) => {
-    localStorage.setItem(LS_QUERY_ITEM_NAME, query);
-    setQuery(query);
-    setSearchParams((prev) => {
-      prev.delete('page');
-      return prev;
-    });
-  };
 
   const onItemsPerPageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     localStorage.setItem(LS_ITEMS_PER_PAGE_NAME, event.target.value);
@@ -37,7 +26,7 @@ export default function MainPage() {
   return (
     <>
       <h1>Here search can you</h1>
-      <SearchBar initQuery={query} onSubmit={onSearchSubmit} />
+      <SearchBar />
 
       <label>
         <span>Items per page: </span>
@@ -48,7 +37,7 @@ export default function MainPage() {
         </select>
       </label>
 
-      <CardList query={query} itemsPerPage={itemsPerPage} />
+      <CardList itemsPerPage={itemsPerPage} />
 
       <button
         className="fixed right-10 bottom-10 z-50 px-4 py-2 text-2xl text-black bg-red-700 rounded-full hover:text-white"
