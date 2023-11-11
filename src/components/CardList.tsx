@@ -10,8 +10,6 @@ interface IProps {
   readonly itemsPerPage: number;
 }
 
-export const ITEMS_PER_PAGE = 20;
-
 export default function CardList({ itemsPerPage }: IProps) {
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get('page') as string) || 1;

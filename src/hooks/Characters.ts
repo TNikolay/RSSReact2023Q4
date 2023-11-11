@@ -1,9 +1,9 @@
 import axios, { AxiosError } from 'axios';
 import { useContext, useEffect } from 'react';
 import { Character, Info } from '../Interfaces';
-import { ITEMS_PER_PAGE } from '../components/CardList';
-import { QueryContext } from '../contexts/QueryContext';
+import { API_ITEMS_PER_PAGE } from '../constants';
 import { CharactersContext } from '../contexts/CharactersContext';
+import { QueryContext } from '../contexts/QueryContext';
 
 interface IQueryParams {
   page: number;
@@ -12,8 +12,8 @@ interface IQueryParams {
 
 const calcCurPage = (page: number, itemsPerPage: number) => {
   if (page === 1 || itemsPerPage === 20) return page;
-  if (itemsPerPage === 10) return Math.ceil((page * itemsPerPage) / ITEMS_PER_PAGE);
-  return ((page - 1) * itemsPerPage) / ITEMS_PER_PAGE + 1;
+  if (itemsPerPage === 10) return Math.ceil((page * itemsPerPage) / API_ITEMS_PER_PAGE);
+  return ((page - 1) * itemsPerPage) / API_ITEMS_PER_PAGE + 1;
 };
 
 export function useCharacters(page: number, itemsPerPage: number) {
