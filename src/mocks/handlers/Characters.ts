@@ -1,16 +1,17 @@
 import { HttpResponse, http } from 'msw';
 import { API_BASE_URL, API_ITEMS_PER_PAGE } from '../../constants';
+import { Character, Info } from '../../Interfaces';
 
 export const getCharactersHandler = http.get(API_BASE_URL + '/character', () => {
-  return HttpResponse.json(responseData);
+  return HttpResponse.json(mockCharactersData);
 });
 
 export const getDetailedCharacterHandler = http.get(API_BASE_URL + '/character/:id', ({ params }) => {
   const id = +params.id === API_ITEMS_PER_PAGE ? API_ITEMS_PER_PAGE - 1 : (+params.id % API_ITEMS_PER_PAGE) - 1;
-  return HttpResponse.json(responseData.results[id]);
+  return HttpResponse.json(mockCharactersData.results![id]);
 });
 
-const responseData = {
+export const mockCharactersData: Info<Character[]> = {
   info: { count: 826, pages: 42, next: 'https://rickandmortyapi.com/api/character?page=2', prev: null },
   results: [
     {

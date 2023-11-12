@@ -15,7 +15,7 @@ export default function DetailedCard({ id, onClose }: IProps) {
   return (
     <>
       <div className="fixed top-0 left-0 z-20 w-full h-full bg-gray-50 bg-opacity-80" onClick={onClose}></div>
-      <div className="w-[300px] bg-gray-100 flex flex-col items-center p-5 mt-20 z-30">
+      <div className="w-[300px] bg-gray-100 flex flex-col items-center p-5 mt-20 z-30" data-testid="DetailedCard">
         <div className="flex w-full">
           <div className="mb-5 w-full text-lg font-medium text-center text-gray-900">Details</div>
           <svg
