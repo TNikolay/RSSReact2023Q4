@@ -1,21 +1,23 @@
 import { PropsWithChildren, createContext, useState } from 'react';
+import { LS_QUERY_ITEM_NAME } from '../constants';
 
 interface IQueryContext {
-  query: string;
+  query?: string;
   setQuery: (query: string) => void;
 }
 
-const LS_QUERY_ITEM_NAME = 'TN_Query';
-
 const initialState: IQueryContext = {
-  query: localStorage.getItem(LS_QUERY_ITEM_NAME) ?? '',
+  //query: localStorage.getItem(LS_QUERY_ITEM_NAME) ?? '', - this does not work with test!?!?
+  query: undefined,
   setQuery: () => {},
 };
 
 export const QueryContext = createContext<IQueryContext>(initialState);
 
 export const QueryProvider: React.FC<PropsWithChildren> = ({ children }) => {
-  const [value, setValue] = useState(initialState.query);
+  const [value, setValue] = useState(
+    initialState.query ? initialState.query : localStorage.getItem(LS_QUERY_ITEM_NAME) ?? ''
+  );
 
   const setQuery = (query: string) => {
     localStorage.setItem(LS_QUERY_ITEM_NAME, query);
