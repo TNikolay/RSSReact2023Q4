@@ -20,6 +20,8 @@ export default function DetailedCard({ id, onClose }: IProps) {
           <div className="mb-5 w-full text-lg font-medium text-center text-gray-900">Details</div>
           <svg
             onClick={onClose}
+            role="button"
+            aria-label="Close detailed card"
             className="ml-auto w-6 h-6 text-gray-700 cursor-pointer fill-current"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 18 18"
