@@ -1,4 +1,4 @@
-import { useCharacter } from '../hooks/Character';
+import { useGetCharacterQuery } from '../store/CharactersApi';
 import ErrorMessage from './utils/ErrorMessage';
 import Loader from './utils/Loader';
 
@@ -10,7 +10,8 @@ interface IProps {
 const detailClassName = 'w-full text-lg px-2 py-2 text-gray-900';
 
 export default function DetailedCard({ id, onClose }: IProps) {
-  const { loading, error, character } = useCharacter(id);
+  const { data, error, isLoading } = useGetCharacterQuery(id);
+  const { name, image, gender, status, species, location, origin } = data ?? {};
 
   return (
     <>
@@ -29,27 +30,27 @@ export default function DetailedCard({ id, onClose }: IProps) {
             <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z" />
           </svg>
         </div>
-        {error && <ErrorMessage error={error} />}
-        {loading && <Loader />}
+        {error && <ErrorMessage error={`Error: ${error?.data?.error} (${error?.status})`} />}
+        {isLoading && <Loader />}
 
-        {!error && character && (
+        {!error && data && (
           <>
-            <h2>{character.name}</h2>
-            <img src={character.image} className="my-4" alt={character.name} />
+            <h2>{name}</h2>
+            <img src={image} className="my-4" alt={name} />
             <p className={detailClassName}>
-              Gender: <span className="font-bold">{character.gender}</span>
+              Gender: <span className="font-bold">{gender}</span>
             </p>
             <p className={detailClassName}>
-              Status: <span className="font-bold">{character.status}</span>
+              Status: <span className="font-bold">{status}</span>
             </p>
             <p className={detailClassName}>
-              Species: <span className="font-bold">{character.species}</span>
+              Species: <span className="font-bold">{species}</span>
             </p>
             <p className={detailClassName}>
-              Location: <span className="font-bold">{character.location.name}</span>
+              Location: <span className="font-bold">{location?.name}</span>
             </p>
             <p className={detailClassName}>
-              Origin: <span className="font-bold">{character.origin.name}</span>
+              Origin: <span className="font-bold">{origin?.name}</span>
             </p>
           </>
         )}

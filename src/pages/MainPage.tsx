@@ -1,9 +1,9 @@
 import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import CardList from '../components/CardList';
 import SearchBar from '../components/SearchBar';
-import { useSearchParams } from 'react-router-dom';
 
-const LS_ITEMS_PER_PAGE_NAME = 'TN_ItemsPerPage';
+const LS_ITEMS_PER_PAGE_NAME = 'TN_ItemsPerPage2';
 
 export default function MainPage() {
   const [needThrowError, setNeedThrowError] = useState(false);
@@ -33,7 +33,6 @@ export default function MainPage() {
         <select value={itemsPerPage} onChange={onItemsPerPageChange} className="px-2 mb-5 ml-2 border-2">
           <option value="10">10 / page</option>
           <option value="20">20 / page</option>
-          <option value="40">40 / page</option>
         </select>
       </label>
 

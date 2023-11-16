@@ -1,14 +1,18 @@
 import { fireEvent, render, screen, waitForElementToBeRemoved } from '@testing-library/react';
+import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { describe, expect, it } from 'vitest';
 import App from '../../src/App';
+import { store } from '../../src/store/store';
 
 describe('Tests for the Pagination component', () => {
   it('Should updates URL query parameter when page changes', async () => {
     render(
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <Provider store={store}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </Provider>
     );
 
     await waitForElementToBeRemoved(screen.queryByText('Loading...'));
