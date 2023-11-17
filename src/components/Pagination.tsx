@@ -1,3 +1,5 @@
+import { useAppSelector } from '../store/store';
+
 interface IProps {
   readonly total: number;
   readonly current: number;
@@ -5,10 +7,15 @@ interface IProps {
 }
 
 export default function Pagination({ total, current, onClick }: IProps) {
-  const pages = new Array(total).fill(0);
+  const { itemsPerPage } = useAppSelector((state) => state.searchReduces);
+  const count = Math.ceil(total / itemsPerPage);
+
+  if (count < 2) return null;
+
+  const pages = new Array(count).fill(0);
 
   return (
-    <div className="pr-20 pb-5">
+    <div className="py-5 pr-20">
       <span className="font-bold">Page:</span>
       {pages.map((_, index) => {
         const page = index + 1;

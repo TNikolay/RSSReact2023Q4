@@ -47,19 +47,15 @@ export default function CardList() {
 
         {!error && !isLoading && (
           <>
-            {total > itemsPerPage && (
-              <Pagination total={Math.ceil(total / itemsPerPage)} current={page} onClick={changePage} />
-            )}
+            <Pagination total={total} current={page} onClick={changePage} />
 
-            <div className="flex flex-wrap gap-6">
+            <div className="flex flex-wrap gap-6 my-5">
               {characters.map((item) => (
                 <Card data={item} key={item.id} onClick={() => changeDetailsId(item.id.toString())} />
               ))}
             </div>
 
-            {total > itemsPerPage && (
-              <Pagination total={Math.ceil(total / itemsPerPage)} current={page} onClick={changePage} />
-            )}
+            <Pagination total={total} current={page} onClick={changePage} />
           </>
         )}
       </div>
