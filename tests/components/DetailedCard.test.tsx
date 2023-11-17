@@ -4,8 +4,6 @@ import { MemoryRouter } from 'react-router-dom';
 import { describe, expect, it, vi } from 'vitest';
 import CardList from '../../src/components/CardList';
 import DetailedCard from '../../src/components/DetailedCard';
-import { CharactersProvider } from '../../src/contexts/CharactersContext';
-import { QueryProvider } from '../../src/contexts/QueryContext';
 import { mockCharactersData } from '../../src/mocks/handlers/Characters';
 import { store } from '../../src/store/store';
 
@@ -43,11 +41,7 @@ describe('Tests for the Detailed Card component', () => {
     render(
       <Provider store={store}>
         <MemoryRouter initialEntries={['/?page=1&details=1']}>
-          <QueryProvider>
-            <CharactersProvider>
-              <CardList itemsPerPage={10} />
-            </CharactersProvider>
-          </QueryProvider>
+          <CardList itemsPerPage={10} />
         </MemoryRouter>
       </Provider>
     );

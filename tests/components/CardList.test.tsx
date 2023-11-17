@@ -5,8 +5,6 @@ import { MemoryRouter } from 'react-router-dom';
 import { describe, expect, it } from 'vitest';
 import CardList from '../../src/components/CardList';
 import { API_BASE_URL } from '../../src/constants';
-import { CharactersProvider } from '../../src/contexts/CharactersContext';
-import { QueryProvider } from '../../src/contexts/QueryContext';
 import { server } from '../../src/mocks/node';
 import { store } from '../../src/store/store';
 
@@ -21,11 +19,7 @@ describe('Card List Check that an appropriate message is displayed if no cards a
     render(
       <Provider store={store}>
         <MemoryRouter initialEntries={['/']}>
-          <QueryProvider>
-            <CharactersProvider>
-              <CardList itemsPerPage={20} />
-            </CharactersProvider>
-          </QueryProvider>
+          <CardList itemsPerPage={20} />
         </MemoryRouter>
       </Provider>
     );
@@ -42,11 +36,7 @@ describe('Card List - Verify that the component renders the specified number of 
     render(
       <Provider store={store}>
         <MemoryRouter initialEntries={['/']}>
-          <QueryProvider>
-            <CharactersProvider>
-              <CardList itemsPerPage={len} />
-            </CharactersProvider>
-          </QueryProvider>
+          <CardList itemsPerPage={len} />
         </MemoryRouter>
       </Provider>
     );
@@ -58,11 +48,7 @@ describe('Card List - Verify that the component renders the specified number of 
     render(
       <Provider store={store}>
         <MemoryRouter initialEntries={['/']}>
-          <QueryProvider>
-            <CharactersProvider>
-              <CardList itemsPerPage={len} />
-            </CharactersProvider>
-          </QueryProvider>
+          <CardList itemsPerPage={len} />
         </MemoryRouter>
       </Provider>
     );

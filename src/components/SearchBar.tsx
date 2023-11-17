@@ -1,9 +1,10 @@
-import { useContext } from 'react';
-import { QueryContext } from '../contexts/QueryContext';
 import { useSearchParams } from 'react-router-dom';
+import { setQuery } from '../store/SearchSlice';
+import { useAppDispatch, useAppSelector } from '../store/store';
 
 export default function SearchBar() {
-  const { query, setQuery } = useContext(QueryContext);
+  const { query } = useAppSelector((state) => state.searchReduces);
+  const dispatch = useAppDispatch();
   const [, setSearchParams] = useSearchParams();
 
   const onSubmitClick = (event: React.FormEvent) => {
@@ -12,7 +13,7 @@ export default function SearchBar() {
     const data = new FormData(form);
     const query = (data.get('searchQuery') as string).trim() || '';
 
-    setQuery(query);
+    dispatch(setQuery(query));
     setSearchParams((prev) => {
       prev.delete('page');
       return prev;

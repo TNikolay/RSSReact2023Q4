@@ -2,17 +2,18 @@ import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import CardList from '../components/CardList';
 import SearchBar from '../components/SearchBar';
-
-const LS_ITEMS_PER_PAGE_NAME = 'TN_ItemsPerPage2';
+import { setItemPerPage } from '../store/SearchSlice';
+import { useAppDispatch, useAppSelector } from '../store/store';
 
 export default function MainPage() {
   const [needThrowError, setNeedThrowError] = useState(false);
-  const [itemsPerPage, setItemsPerPage] = useState(+(localStorage.getItem(LS_ITEMS_PER_PAGE_NAME) ?? '20'));
   const [, setSearchParams] = useSearchParams();
+  const { itemsPerPage } = useAppSelector((state) => state.searchReduces);
+
+  const dispatch = useAppDispatch();
 
   const onItemsPerPageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    localStorage.setItem(LS_ITEMS_PER_PAGE_NAME, event.target.value);
-    setItemsPerPage(+event.target.value);
+    dispatch(setItemPerPage(+event.target.value));
     setSearchParams((prev) => {
       prev.delete('page');
       return prev;
@@ -36,7 +37,7 @@ export default function MainPage() {
         </select>
       </label>
 
-      <CardList itemsPerPage={itemsPerPage} />
+      <CardList />
 
       <button
         className="fixed right-10 bottom-10 z-50 px-4 py-2 text-2xl text-black bg-red-700 rounded-full hover:text-white"

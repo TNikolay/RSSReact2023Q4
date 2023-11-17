@@ -1,25 +1,20 @@
-import { useContext } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { QueryContext } from '../contexts/QueryContext';
 import { IGetCharactersParams, useGetCharactersQuery } from '../store/CharactersApi';
+import { useAppSelector } from '../store/store';
 import Card from './Card';
 import DetailedCard from './DetailedCard';
 import Pagination from './Pagination';
 import ErrorMessage from './utils/ErrorMessage';
 import Loader from './utils/Loader';
 
-interface IProps {
-  readonly itemsPerPage: number;
-}
-
-export default function CardList({ itemsPerPage }: IProps) {
+export default function CardList() {
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get('page') as string) || 1;
   const details = parseInt(searchParams.get('details') as string) || 0;
 
-  const { query: name } = useContext(QueryContext);
+  const { query, itemsPerPage } = useAppSelector((state) => state.searchReduces);
 
-  const params: IGetCharactersParams = { page, name, itemsPerPage };
+  const params: IGetCharactersParams = { page, name: query, itemsPerPage };
   const { data, error, isLoading } = useGetCharactersQuery(params);
   const characters = data?.characters ?? [];
   const total = data?.total ?? 0;
