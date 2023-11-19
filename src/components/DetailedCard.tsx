@@ -1,4 +1,5 @@
 import { useGetCharacterQuery } from '../store/CharactersApi';
+import { useAppSelector } from '../store/store';
 import ErrorMessage from './utils/ErrorMessage';
 import Loader from './utils/Loader';
 
@@ -10,8 +11,9 @@ interface IProps {
 const detailClassName = 'w-full text-lg px-2 py-2 text-gray-900';
 
 export default function DetailedCard({ id, onClose }: IProps) {
-  const { data, error, isLoading } = useGetCharacterQuery(id);
+  const { data, error } = useGetCharacterQuery(id);
   const { name, image, gender, status, species, location, origin } = data ?? {};
+  const { isLoadingCard } = useAppSelector((state) => state.searchReduces);
 
   return (
     <>
@@ -30,8 +32,8 @@ export default function DetailedCard({ id, onClose }: IProps) {
             <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z" />
           </svg>
         </div>
-        {error && <ErrorMessage error={`Error: ${error?.data?.error} (${error?.status})`} />}
-        {isLoading && <Loader />}
+        {error && <ErrorMessage error={'status' in error ? `Error: ${error?.status}` : 'Unknow Error:('} />}
+        {isLoadingCard && <Loader />}
 
         {!error && data && (
           <>

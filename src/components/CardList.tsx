@@ -12,10 +12,10 @@ export default function CardList() {
   const page = parseInt(searchParams.get('page') as string) || 1;
   const details = parseInt(searchParams.get('details') as string) || 0;
 
-  const { query, itemsPerPage } = useAppSelector((state) => state.searchReduces);
+  const { query, itemsPerPage, isLoadingList } = useAppSelector((state) => state.searchReduces);
 
   const params: IGetCharactersParams = { page, name: query, itemsPerPage };
-  const { data, error, isLoading } = useGetCharactersQuery(params);
+  const { data, error } = useGetCharactersQuery(params);
   const characters = data?.characters ?? [];
   const total = data?.total ?? 0;
 
@@ -36,16 +36,18 @@ export default function CardList() {
         {error && (
           <ErrorMessage
             error={
-              error.status == 404
-                ? 'Sorry, there is no data for your requiest'
-                : `Error: ${error?.data?.error} (${error?.status})`
+              'status' in error
+                ? error.status == 404
+                  ? 'Sorry, there is no data for your requiest'
+                  : `Error: ${error?.status}`
+                : 'Unknow Error:('
             }
           />
         )}
 
-        {isLoading && <Loader />}
+        {isLoadingList && <Loader />}
 
-        {!error && !isLoading && (
+        {!error && !isLoadingList && (
           <>
             <Pagination total={total} current={page} onClick={changePage} />
 
