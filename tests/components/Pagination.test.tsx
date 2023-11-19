@@ -22,6 +22,8 @@ describe('Tests for the Pagination component', () => {
     fireEvent.click(btns[0]);
     expect(window.location.search).toContain('page=2');
 
+    await waitForElementToBeRemoved(screen.queryByText('Loading...'));
+
     btns = screen.queryAllByRole('button', { name: '3' });
     expect(btns).toHaveLength(2);
     fireEvent.click(btns[0]);

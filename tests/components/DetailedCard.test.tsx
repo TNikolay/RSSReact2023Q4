@@ -41,7 +41,7 @@ describe('Tests for the Detailed Card component', () => {
     render(
       <Provider store={store}>
         <MemoryRouter initialEntries={['/?page=1&details=1']}>
-          <CardList itemsPerPage={10} />
+          <CardList />
         </MemoryRouter>
       </Provider>
     );

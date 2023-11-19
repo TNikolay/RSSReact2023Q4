@@ -5,6 +5,7 @@ import { describe, expect, it, vi } from 'vitest';
 import Card from '../../src/components/Card';
 import CardList from '../../src/components/CardList';
 import { mockCharactersData } from '../../src/mocks/handlers/Characters';
+import { charactersApi } from '../../src/store/CharactersApi';
 import { store } from '../../src/store/store';
 
 const mockData = mockCharactersData.results![0];
@@ -24,7 +25,7 @@ describe('Tests for the Card List component', () => {
     render(
       <Provider store={store}>
         <MemoryRouter initialEntries={['/']}>
-          <CardList itemsPerPage={10} />
+          <CardList />
         </MemoryRouter>
       </Provider>
     );
@@ -39,18 +40,15 @@ describe('Tests for the Card List component', () => {
     render(
       <Provider store={store}>
         <MemoryRouter initialEntries={['/']}>
-          <CardList itemsPerPage={10} />
+          <CardList />
         </MemoryRouter>
       </Provider>
     );
 
-    // TODO
-    // const card = await screen.findByRole('heading', { name: mockData.name });
+    const card = await screen.findByRole('heading', { name: mockData.name });
 
-    // const moackAxios = vi.spyOn(global.fetch);
-
-    // fireEvent.click(card);
-    // expect(moackAxios).toBeCalledTimes(1);
-    // expect(moackAxios).toBeCalledWith('character/1');
+    const query = vi.spyOn(charactersApi.endpoints.getCharacter, 'initiate');
+    fireEvent.click(card);
+    expect(query).toBeCalledTimes(1);
   });
 });

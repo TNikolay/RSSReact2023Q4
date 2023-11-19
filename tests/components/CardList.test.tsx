@@ -19,7 +19,7 @@ describe('Card List Check that an appropriate message is displayed if no cards a
     render(
       <Provider store={store}>
         <MemoryRouter initialEntries={['/']}>
-          <CardList itemsPerPage={20} />
+          <CardList />
         </MemoryRouter>
       </Provider>
     );
@@ -30,25 +30,12 @@ describe('Card List Check that an appropriate message is displayed if no cards a
 });
 
 describe('Card List - Verify that the component renders the specified number of cards', () => {
-  let len = 10;
-
+  const len = 20;
   it(`should render ${len} cards`, async () => {
     render(
       <Provider store={store}>
         <MemoryRouter initialEntries={['/']}>
-          <CardList itemsPerPage={len} />
-        </MemoryRouter>
-      </Provider>
-    );
-    expect(await screen.findAllByTestId('CardListItem')).toHaveLength(len);
-  });
-
-  len = 20;
-  it(`should render ${len} cards`, async () => {
-    render(
-      <Provider store={store}>
-        <MemoryRouter initialEntries={['/']}>
-          <CardList itemsPerPage={len} />
+          <CardList />
         </MemoryRouter>
       </Provider>
     );
