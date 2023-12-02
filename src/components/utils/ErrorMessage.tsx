@@ -1,7 +1,11 @@
 interface IProps {
-  readonly error: string;
+  readonly error?: string;
 }
 
 export default function ErrorMessage({ error }: IProps) {
-  return <p className="py-5 font-bold text-center text-red-600">{error}</p>;
+  return (
+    <div className="h-[1rem]">
+      <p className="text-red-600">{error && error}</p>
+    </div>
+  );
 }
