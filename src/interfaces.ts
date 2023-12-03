@@ -8,7 +8,13 @@ export const UserFormSchema = yup.object({
     .matches(/^[A-ZА-Я]/, 'name must start with uppercased letter'),
   age: yup.number().required().integer().positive(),
   email: yup.string().required().email(),
-  password: yup.string().required(),
+  password: yup
+    .string()
+    .required()
+    .matches(/[a-z]/, 'weak password! should contains lowercase letter')
+    .matches(/[A-Z]/, 'weak password! should contains UPPERCASE letter')
+    .matches(/[0-9]/, 'weak password! should contains number')
+    .matches(/[!@#$%^&*()_+{}:?><]/, 'weak password! should contains special character (!@#$%^&*()_+{}:?><)'),
   confirmPassword: yup
     .string()
     .required()

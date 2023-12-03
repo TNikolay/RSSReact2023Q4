@@ -25,7 +25,7 @@ export default function ReactHookForm() {
     const photo = data?.photo && data.photo[0] ? await convertFileToBase64(data.photo[0]) : '';
     const res: IUserModel = { ...data, photo };
     dispatch(addData(res));
-    navigate('/');
+    navigate('/', { state: { hightlite: 'true' } });
   };
 
   return (
@@ -34,7 +34,7 @@ export default function ReactHookForm() {
         <label htmlFor="name" className="form-label">
           Name:
         </label>
-        <input {...register('name')} id="name" autoComplete="username" className="form-input" defaultValue="Test RHF" />
+        <input {...register('name')} id="name" autoComplete="username" className="form-input" />
         <ErrorMessage error={errors.name?.message} />
       </div>
 
@@ -42,7 +42,7 @@ export default function ReactHookForm() {
         <label htmlFor="age" className="form-label">
           Age:
         </label>
-        <input {...register('age')} id="age" type="number" className="form-input" defaultValue="12" />
+        <input {...register('age')} id="age" type="number" className="form-input" />
         <ErrorMessage error={errors.age?.message} />
       </div>
 
@@ -50,7 +50,7 @@ export default function ReactHookForm() {
         <label htmlFor="email" className="form-label">
           Email:
         </label>
-        <input {...register('email')} id="email" autoComplete="email" className="form-input" defaultValue="1@1.com" />
+        <input {...register('email')} id="email" autoComplete="email" className="form-input" />
         <ErrorMessage error={errors.email?.message} />
       </div>
 
@@ -58,7 +58,7 @@ export default function ReactHookForm() {
         <label htmlFor="password" className="form-label">
           Password:
         </label>
-        <input {...register('password')} id="password" className="form-input" defaultValue="12345" />
+        <input {...register('password')} id="password" className="form-input" />
         <ErrorMessage error={errors.password?.message} />
       </div>
 
@@ -66,7 +66,7 @@ export default function ReactHookForm() {
         <label htmlFor="confirmPassword" className="form-label">
           Confirm password:
         </label>
-        <input {...register('confirmPassword')} id="confirmPassword" className="form-input" defaultValue="12345" />
+        <input {...register('confirmPassword')} id="confirmPassword" className="form-input" />
         <ErrorMessage error={errors.confirmPassword?.message} />
       </div>
 
@@ -74,7 +74,7 @@ export default function ReactHookForm() {
         <label htmlFor="country" className="form-label">
           Country:
         </label>
-        <input {...register('country')} id="country" list="countries-datalist" autoComplete="country" className="form-input" defaultValue="Thai" />
+        <input {...register('country')} id="country" list="countries-datalist" autoComplete="on" className="form-input" />
         <ErrorMessage error={errors.country?.message} />
         <datalist id="countries-datalist">
           {countries.map((country) => (
@@ -89,7 +89,7 @@ export default function ReactHookForm() {
         <label htmlFor="gender" className="form-label">
           Gender:
         </label>
-        <select {...register('gender')} id="gender" className="form-input" defaultValue="Male">
+        <select {...register('gender')} id="gender" className="form-input">
           <option value="">Specify gender</option>
           <option value="Male">Male</option>
           <option value="Female">Female</option>
@@ -99,7 +99,7 @@ export default function ReactHookForm() {
 
       <div>
         <label className="form-label">
-          <input {...register('accept')} id="accept" type="checkbox" className="form-input-checkbox" defaultChecked={true} />
+          <input {...register('accept')} id="accept" type="checkbox" className="form-input-checkbox" />
           Confirm that this person is genius:
         </label>
         <ErrorMessage error={errors.accept?.message} />

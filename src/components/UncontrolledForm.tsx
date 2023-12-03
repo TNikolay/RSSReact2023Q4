@@ -49,7 +49,7 @@ export default function UncontrolledForm() {
       const res: IUserModel = { ...data, photo: photoBase64 };
       dispatch(addData(res));
 
-      navigate('/');
+      navigate('/', { state: { hightlite: 'true' } });
     } catch (err) {
       if (err instanceof yup.ValidationError) {
         const errorsResult: IFormErrors = {};
@@ -67,43 +67,42 @@ export default function UncontrolledForm() {
         <label htmlFor="name" className="form-label">
           Name:
         </label>
-        <input name="name" id="name" autoComplete="username" className="form-input" defaultValue="Test" />
+        <input name="name" id="name" autoComplete="username" className="form-input" />
         <ErrorMessage error={errors.name} />
       </div>
       <div>
         <label htmlFor="age" className="form-label">
           Age:
         </label>
-        <input name="age" id="age" type="number" className="form-input" defaultValue="123568" />
+        <input name="age" id="age" type="number" className="form-input" />
         <ErrorMessage error={errors.age} />
       </div>
       <div>
         <label htmlFor="email" className="form-label">
           Email:
         </label>
-        <input name="email" id="email" type="email" autoComplete="email" className="form-input" defaultValue="1@1.com" />
+        <input name="email" id="email" type="email" autoComplete="email" className="form-input" />
         <ErrorMessage error={errors.email} />
       </div>
       <div>
         <label htmlFor="password" className="form-label">
           Password:
         </label>
-        <input name="password" id="password" className="form-input" defaultValue="12345" />
+        <input name="password" id="password" className="form-input" />
         <ErrorMessage error={errors.password} />
       </div>{' '}
-      {/* // TODO */}
       <div>
         <label htmlFor="confirmPassword" className="form-label">
           Confirm password:
         </label>
-        <input name="confirmPassword" id="confirmPassword" className="form-input" defaultValue="12345" />
+        <input name="confirmPassword" id="confirmPassword" className="form-input" />
         <ErrorMessage error={errors.confirmPassword} />
       </div>
       <div>
         <label htmlFor="country" className="form-label">
           Country:
         </label>
-        <input name="country" id="country" list="countries-datalist" autoComplete="country" className="form-input" defaultValue="Turkey" />
+        <input name="country" id="country" list="countries-datalist" autoComplete="country" className="form-input" />
         <ErrorMessage error={errors.confirmPassword} />
         <datalist id="countries-datalist">
           {countries.map((country) => (
@@ -117,7 +116,7 @@ export default function UncontrolledForm() {
         <label htmlFor="gender" className="form-label">
           Gender:
         </label>
-        <select name="gender" id="gender" className="form-input" defaultValue="Male">
+        <select name="gender" id="gender" className="form-input">
           <option value="">Specify gender</option>
           <option value="Male">Male</option>
           <option value="Female">Female</option>
@@ -126,7 +125,7 @@ export default function UncontrolledForm() {
       </div>
       <div>
         <label className="form-label">
-          <input name="accept" id="accept" type="checkbox" className="form-input-checkbox" defaultChecked={true} />
+          <input name="accept" id="accept" type="checkbox" className="form-input-checkbox" />
           Confirm that this person is genius:
         </label>
         <ErrorMessage error={errors.accept} />
