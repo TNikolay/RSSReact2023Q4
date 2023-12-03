@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
-import { IUserModel, UserFormSchema } from '../interfaces';
+import { IUserModel, IUserModelInForm, UserFormSchema } from '../interfaces';
 import { useAppDispatch } from '../store/store';
 import ErrorMessage from './utils/ErrorMessage';
 import { addData } from '../store/FormSlice';
+import { convertFileToBase64 } from '../lib/utils';
 
 type FormFields = {
   name: HTMLInputElement;
@@ -24,9 +25,9 @@ export default function UncontrolledForm() {
 
   const handleSumbit: React.FormEventHandler<HTMLFormElement & FormFields> = async (event) => {
     event.preventDefault();
-    const { name, age, email, password, confirmPassword, gender, accept } = event.currentTarget;
+    const { name, age, email, password, confirmPassword, gender, accept, photo } = event.currentTarget;
 
-    const data: IUserModel = {
+    const data: IUserModelInForm = {
       name: name.value,
       age: +age.value,
       email: email.value,
@@ -34,12 +35,15 @@ export default function UncontrolledForm() {
       confirmPassword: confirmPassword.value,
       gender: gender.value,
       accept: accept.checked,
+      photo: photo.files,
     };
 
-    //console.log('Form : ', JSON.stringify(data));
     try {
       await UserFormSchema.validate(data, { abortEarly: false });
-      dispatch(addData(data));
+      const photoBase64 = photo[0] ? await convertFileToBase64(photo[0]) : '';
+      const res: IUserModel = { ...data, photo: photoBase64 };
+      dispatch(addData(res));
+
       navigate('/');
     } catch (err) {
       if (err instanceof yup.ValidationError) {
@@ -47,7 +51,6 @@ export default function UncontrolledForm() {
         err.inner.forEach((item) => {
           if (item.path) errorsResult[item.path as keyof IUserModel] = item.message;
         });
-        // console.log(errorsResult);
         setErrors(errorsResult);
       }
     }
@@ -108,6 +111,13 @@ export default function UncontrolledForm() {
           Confirm that this person is genius:
         </label>
         <ErrorMessage error={errors.accept} />
+      </div>
+      <div>
+        <label htmlFor="photo" className="form-label">
+          Photo:
+        </label>
+        <input name="photo" id="photo" type="file" />
+        <ErrorMessage error={errors.photo} />
       </div>
       <button type="submit" className="px-4 py-2 bg-green-400 border hover:text-white">
         Create

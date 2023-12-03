@@ -1,10 +1,11 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { IUserModel, UserFormSchema } from '../interfaces';
+import { IUserModel, IUserModelInForm, UserFormSchema } from '../interfaces';
 import { useAppDispatch } from '../store/store';
 import ErrorMessage from './utils/ErrorMessage';
 import { addData } from '../store/FormSlice';
+import { convertFileToBase64 } from '../lib/utils';
 
 export default function ReactHookForm() {
   const navigate = useNavigate();
@@ -19,9 +20,10 @@ export default function ReactHookForm() {
     resolver: yupResolver(UserFormSchema),
   });
 
-  const onSubmit: SubmitHandler<IUserModel> = (data) => {
-    //console.log(data);
-    dispatch(addData(data));
+  const onSubmit: SubmitHandler<IUserModelInForm> = async (data) => {
+    const photo = data?.photo && data.photo[0] ? await convertFileToBase64(data.photo[0]) : '';
+    const res: IUserModel = { ...data, photo };
+    dispatch(addData(res));
     navigate('/');
   };
 
@@ -85,6 +87,14 @@ export default function ReactHookForm() {
           Confirm that this person is genius:
         </label>
         <ErrorMessage error={errors.accept?.message} />
+      </div>
+
+      <div>
+        <label htmlFor="photo" className="form-label">
+          Photo:
+        </label>
+        <input {...register('photo')} id="photo" type="file" />
+        <ErrorMessage error={errors.photo?.message} />
       </div>
 
       <button type="submit" disabled={!isValid} className="px-4 py-2 bg-green-400 border hover:enabled:text-white disabled:bg-gray-300">
