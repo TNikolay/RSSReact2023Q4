@@ -2,10 +2,10 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { IUserModel, IUserModelInForm, UserFormSchema } from '../interfaces';
-import { useAppDispatch } from '../store/store';
-import ErrorMessage from './utils/ErrorMessage';
-import { addData } from '../store/FormSlice';
 import { convertFileToBase64 } from '../lib/utils';
+import { addData } from '../store/FormSlice';
+import { useAppDispatch, useAppSelector } from '../store/store';
+import ErrorMessage from './utils/ErrorMessage';
 
 type FormFields = {
   name: HTMLInputElement;
@@ -13,7 +13,10 @@ type FormFields = {
   email: HTMLInputElement;
   password: HTMLInputElement;
   confirmPassword: HTMLInputElement;
+  country: HTMLInputElement;
+  gender: HTMLInputElement;
   accept: HTMLInputElement;
+  photo: HTMLInputElement;
 };
 
 type IFormErrors = Partial<Record<keyof IUserModel, string>>;
@@ -22,10 +25,11 @@ export default function UncontrolledForm() {
   const [errors, setErrors] = useState<IFormErrors>({});
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { countries } = useAppSelector((state) => state.formReducer);
 
   const handleSumbit: React.FormEventHandler<HTMLFormElement & FormFields> = async (event) => {
     event.preventDefault();
-    const { name, age, email, password, confirmPassword, gender, accept, photo } = event.currentTarget;
+    const { name, age, email, password, confirmPassword, country, gender, accept, photo } = event.currentTarget;
 
     const data: IUserModelInForm = {
       name: name.value,
@@ -33,14 +37,15 @@ export default function UncontrolledForm() {
       email: email.value,
       password: password.value,
       confirmPassword: confirmPassword.value,
+      country: country.value,
       gender: gender.value,
       accept: accept.checked,
-      photo: photo.files,
+      photo: photo.files as FileList,
     };
 
     try {
       await UserFormSchema.validate(data, { abortEarly: false });
-      const photoBase64 = photo[0] ? await convertFileToBase64(photo[0]) : '';
+      const photoBase64 = photo && photo.files ? await convertFileToBase64(photo.files[0]) : '';
       const res: IUserModel = { ...data, photo: photoBase64 };
       dispatch(addData(res));
 
@@ -93,6 +98,20 @@ export default function UncontrolledForm() {
         </label>
         <input name="confirmPassword" id="confirmPassword" className="form-input" defaultValue="12345" />
         <ErrorMessage error={errors.confirmPassword} />
+      </div>
+      <div>
+        <label htmlFor="country" className="form-label">
+          Country:
+        </label>
+        <input name="country" id="country" list="countries-datalist" autoComplete="country" className="form-input" defaultValue="Turkey" />
+        <ErrorMessage error={errors.confirmPassword} />
+        <datalist id="countries-datalist">
+          {countries.map((country) => (
+            <option key={country} value={country}>
+              {country}
+            </option>
+          ))}
+        </datalist>
       </div>
       <div>
         <label htmlFor="gender" className="form-label">

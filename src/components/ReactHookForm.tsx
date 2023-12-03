@@ -2,14 +2,15 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { IUserModel, IUserModelInForm, UserFormSchema } from '../interfaces';
-import { useAppDispatch } from '../store/store';
-import ErrorMessage from './utils/ErrorMessage';
-import { addData } from '../store/FormSlice';
 import { convertFileToBase64 } from '../lib/utils';
+import { addData } from '../store/FormSlice';
+import { useAppDispatch, useAppSelector } from '../store/store';
+import ErrorMessage from './utils/ErrorMessage';
 
 export default function ReactHookForm() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { countries } = useAppSelector((state) => state.formReducer);
 
   const {
     register,
@@ -67,6 +68,21 @@ export default function ReactHookForm() {
         </label>
         <input {...register('confirmPassword')} id="confirmPassword" className="form-input" defaultValue="12345" />
         <ErrorMessage error={errors.confirmPassword?.message} />
+      </div>
+
+      <div>
+        <label htmlFor="country" className="form-label">
+          Country:
+        </label>
+        <input {...register('country')} id="country" list="countries-datalist" autoComplete="country" className="form-input" defaultValue="Thai" />
+        <ErrorMessage error={errors.country?.message} />
+        <datalist id="countries-datalist">
+          {countries.map((country) => (
+            <option key={country} value={country}>
+              {country}
+            </option>
+          ))}
+        </datalist>
       </div>
 
       <div>

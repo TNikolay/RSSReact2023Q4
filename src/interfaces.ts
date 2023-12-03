@@ -1,4 +1,5 @@
 import * as yup from 'yup';
+import { ListOfCountries } from './const';
 
 export const UserFormSchema = yup.object({
   name: yup
@@ -12,6 +13,7 @@ export const UserFormSchema = yup.object({
     .string()
     .required()
     .oneOf([yup.ref('password')], 'passwords must match'),
+  country: yup.string().required().oneOf(ListOfCountries, 'select country from the list'),
   gender: yup.string().required().oneOf(['Male', 'Female']),
   accept: yup.boolean().required().oneOf([true], 'please, confirm!'),
   photo: yup
